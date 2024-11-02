@@ -93,5 +93,11 @@ cron.schedule('0 * * * *', () => {
 
 console.log('Aplicação iniciada. Aguardando próxima execução programada.');
 
-// Executar imediatamente na inicialização
-capturarEInserirDados();
+// Iniciar o servidor
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+  console.log('Aplicação iniciada. Aguardando próxima execução programada.');
+  
+  // Executar imediatamente na inicialização
+  capturarEInserirDados();
+});
