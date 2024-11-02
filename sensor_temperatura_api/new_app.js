@@ -1,7 +1,15 @@
+const express = require('express');
+const bodyParser = require('body-parser');
 const sensor = require('node-dht-sensor');
 const { Pool } = require('pg');
 const cron = require('node-cron');
 require('dotenv').config();
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(bodyParser.json());
+
 
 // Configuração do sensor DHT11
 const sensorType = 22;  // DHT11
@@ -43,6 +51,30 @@ async function inserirDados(temperatura, umidade) {
   }
 }
 
+// Endpoint para ler dados do sensor em tempo real
+app.get('/sensor', async (req, res) => {
+  try {
+    const dados = await lerSensor();
+    res.json(dados);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao ler dados do sensor' });
+  }
+});
+
+// Endpoint para acessar dados salvos no banco de dados
+app.get('/dados', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const result = await client.query('SELECT * FROM sensor_dht11_dados ORDER BY data_hora DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Erro ao buscar dados:', err);
+    res.status(500).json({ error: 'Erro ao buscar dados do banco' });
+  } finally {
+    client.release();
+  }
+});
+
 // Função principal para ler o sensor e inserir dados
 async function capturarEInserirDados() {
   try {
@@ -61,5 +93,11 @@ cron.schedule('0 * * * *', () => {
 
 console.log('Aplicação iniciada. Aguardando próxima execução programada.');
 
-// Executar imediatamente na inicialização
-capturarEInserirDados();
+// Iniciar o servidor
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+  console.log('Aplicação iniciada. Aguardando próxima execução programada.');
+  
+  // Executar imediatamente na inicialização
+  capturarEInserirDados();
+});
