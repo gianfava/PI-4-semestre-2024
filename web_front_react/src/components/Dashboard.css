@@ -1,0 +1,17 @@
+.dashboard-container {
+    text-align: center;
+}
+.dashboard-container p {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #333;
+}
+.dashboard-container .data {
+    font-weight: bold;
+    color: #4CAF50;
+}
+.dashboard-container .refresh-info {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 10px;
+}
