@@ -16,11 +16,15 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 
 // Conexão ao MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Conectado ao MongoDB"))
-  .catch((error) => console.error("Erro ao conectar ao MongoDB:", error));
+mongoose
+    .connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log("Conectado ao MongoDB"))
+    .catch((error) => console.error("Erro ao conectar ao MongoDB:", error));
 
 // Inicialização do Servidor
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

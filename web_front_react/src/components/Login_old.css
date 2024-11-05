@@ -1,17 +1,16 @@
-/* src/components/Register.css */
+/* src/components/Login.css */
 
-.container-register {
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Garante que o contêiner ocupe toda a altura da tela */
+    height: 100vh;
     background-color: #f0f2f5;
 }
 
-.form-container {
+.form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza o conteúdo dentro do contêiner do formulário */
     padding: 2rem;
     background-color: #ffffff;
     border-radius: 8px;
@@ -20,22 +19,31 @@
     max-width: 400px;
 }
 
-h2 {
+.logo {
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    margin: 0 auto 1rem; /* Centraliza a imagem e adiciona espaçamento inferior */
+}
+
+.form h2 {
     text-align: center;
     margin-bottom: 1.5rem;
 }
 
-input {
+.inputContainer {
+    margin-bottom: 1rem;
+}
+
+.input {
     width: 100%;
-    padding: 6px;
-    margin: 6px 0;
-    font-size: 0.9rem;
+    padding: 0.5rem;
+    font-size: 1rem;
     border-radius: 4px;
     border: 1px solid #ddd;
 }
 
-button {
-    width: 100px; /* Define uma largura fixa para o botão */
+.button {
+    width: 40%; /* Ajusta a largura do botão */
     padding: 0.75rem;
     font-size: 1rem;
     border-radius: 4px;
@@ -44,11 +52,28 @@ button {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
     margin: 0 auto; /* Centraliza o botão */
     display: block; /* Garante que o botão ocupe uma linha completa */
 }
 
-button:hover {
+.button:hover {
+    background-color: #333;
+}
+
+.secondaryButton {
+    width: 40%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: none;
+    background-color: #324de7;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 auto; /* Centraliza o botão */
+}
+
+.secondaryButton:hover {
     background-color: #333;
 }
