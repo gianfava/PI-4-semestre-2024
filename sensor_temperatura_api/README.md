@@ -1,91 +1,75 @@
-# Sensor DHT11 Data Capture API
+# Documentação das Rotas da API
 
-## Visão Geral
+## URL Base
 
-Esta aplicação Node.js captura dados de temperatura e umidade de um sensor DHT11 conectado a um Raspberry Pi (ou dispositivo similar). Ela fornece uma API RESTful para acessar os dados em tempo real e os dados históricos armazenados em um banco de dados PostgreSQL.
+Todas as rotas são prefixadas com: `/api/v1`
 
-## Funcionalidades
+## Rotas do Sensor
 
-- Captura periódica de dados de temperatura e umidade do sensor DHT11
-- Armazenamento dos dados capturados em um banco de dados PostgreSQL
-- API RESTful para acessar dados em tempo real e históricos
-- Agendamento automático de captura de dados a cada hora
+### Obter Dados do Sensor em Tempo Real
 
-## Pré-requisitos
+Recupera a temperatura e umidade atuais do sensor.
 
-- Node.js (v12 ou superior)
-- PostgreSQL
-- Raspberry Pi (ou dispositivo similar) com sensor DHT11 conectado
+- **URL:** `/sensor/realtime`
+- **Método:** `GET`
+- **Resposta de Sucesso:**
+  - **Código:** 200
+  - **Conteúdo:** 
+    ```json
+    {
+      "temperature": 25.5,
+      "humidity": 60.2
+    }
+    ```
+- **Resposta de Erro:**
+  - **Código:** 500
+  - **Conteúdo:** 
+    ```json
+    {
+      "status": "error",
+      "statusCode": 500,
+      "message": "Erro ao ler dados do sensor"
+    }
+    ```
 
-## Instalação
+### Obter Dados Armazenados do Sensor
 
-1. Clone o repositório:
+Recupera todos os dados do sensor armazenados no banco de dados.
 
-   git clone https://github.com/seu-usuario/sensor-dht11-api.git
+- **URL:** `/sensor/data`
+- **Método:** `GET`
+- **Resposta de Sucesso:**
+  - **Código:** 200
+  - **Conteúdo:** 
+    ```json
+    [
+      {
+        "id": 1,
+        "temperatura": 25.5,
+        "umidade": 60.2,
+        "data_hora": "2023-05-20T10:30:00Z"
+      },
+      {
+        "id": 2,
+        "temperatura": 26.0,
+        "umidade": 59.8,
+        "data_hora": "2023-05-20T11:30:00Z"
+      }
+    ]
+    ```
+- **Resposta de Erro:**
+  - **Código:** 500
+  - **Conteúdo:** 
+    ```json
+    {
+      "status": "error",
+      "statusCode": 500,
+      "message": "Erro ao recuperar dados do sensor do banco de dados"
+    }
+    ```
 
-   cd sensor-dht11-api
+## Observações
 
-2. Instale as dependências:
-
-   npm install
-
-3. Configure as variáveis de ambiente criando um arquivo `.env` na raiz do projeto:
-
-   DB_USER=seu_usuario_postgres
-
-   DB_HOST=seu_host_postgres
-
-   DB_NAME=seu_banco_de_dados
-
-   DB_PASSWORD=sua_senha_postgres
-
-   DB_PORT=5432
-
-   PORT=3000
-
-4. Configure o banco de dados PostgreSQL executando o seguinte SQL:
-```sql
-CREATE TABLE sensor_dht11_dados (
-    id SERIAL PRIMARY KEY,
-    data_hora TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    temperatura DECIMAL(5,2) NOT NULL,
-    umidade DECIMAL(5,2) NOT NULL
-);
-```
-
-## Configuração do Hardware
-Certifique-se de que o sensor DHT11 esteja corretamente conectado ao seu Raspberry Pi. Por padrão, o código assume que o sensor está conectado ao GPIO 22. Se necessário, ajuste a variável sensorPin no arquivo app.js.
-
-## Uso
-
-Inicie a aplicação:
-
-`node app.js`
-
-
-A aplicação começará a capturar dados do sensor DHT11 a cada hora e os armazenará no banco de dados.
-
-Acesse os endpoints da API:
-
-Dados em tempo real do sensor: GET http://localhost:3000/sensor
-
-Dados históricos (últimos 100 registros): GET http://localhost:3000/dados
-
-
-
-## Endpoints da API
-
-GET /sensor: Retorna os dados atuais de temperatura e umidade do sensor DHT11.
-
-GET /dados: Retorna os últimos 100 registros de dados armazenados no banco de dados.
-
-## Personalização
-
-Para alterar a frequência de captura de dados, modifique a configuração do cron job no arquivo app.js.
-Para ajustar o número de registros retornados pelo endpoint /dados, modifique a consulta SQL na função correspondente.
-
-## Solução de Problemas
-
-Se encontrar problemas com a conexão do sensor, verifique as conexões físicas e certifique-se de que o número do pino GPIO está correto no código.
-Para problemas de conexão com o banco de dados, verifique as credenciais no arquivo .env e certifique-se de que o PostgreSQL está em execução.
-
+- Todas as respostas estão no formato JSON.
+- Os carimbos de data/hora estão no formato ISO 8601.
+- Os dados do sensor são capturados e armazenados a cada hora por uma tarefa agendada.
