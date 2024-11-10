@@ -1,22 +1,22 @@
 {
-  "name": "medidor_temperatura_node",
-  "version": "1.0.0",
-  "main": "app.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "postinstall": "python3 -m venv venv && . venv/bin/activate && pip install epd-library Pillow gpiozero lgpio"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "body-parser": "^1.20.3",
-    "node-dht-sensor": "^0.4.3",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "marked": "^15.0.0",
-    "node-cron": "^3.0.3",
-    "pg": "^8.13.0"
-  }
+	"name": "medidor_temperatura_node",
+	"version": "1.0.0",
+	"main": "app.js",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "node --watch server.js",
+		"postinstall": "python3 -m venv venv && . venv/bin/activate && pip install waveshare-epaper Pillow gpiozero lgpio"
+	},
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"body-parser": "^1.20.3",
+		"node-dht-sensor": "^0.4.3",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"marked": "^15.0.0",
+		"node-cron": "^3.0.3",
+		"pg": "^8.13.0"
+	}
 }
