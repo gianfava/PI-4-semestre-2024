@@ -1,6 +1,7 @@
 const app = require("./src/app");
 const environment = require("./src/config/environment");
 const schedulerService = require("./src/services/schedulerService");
+const displayService = require('./src/services/displayService');
 
 const port = environment.PORT;
 
@@ -9,6 +10,7 @@ app.listen(port, () => {
 	console.log(`Ambiente: ${environment.NODE_ENV}`);
 	console.log(`API Version: v1`);
 	schedulerService.init();
+	displayService.init();
 });
 
 // Tratamento de erros não capturados
