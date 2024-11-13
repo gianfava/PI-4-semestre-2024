@@ -4,7 +4,7 @@ const asyncHandler = require("../../../utils/asyncHandler");
 
 const router = express.Router();
 
-router.get("/realtime", asyncHandler(sensorController.getRealTimeData));
-router.get("/data", asyncHandler(sensorController.getStoredData));
+router.get("/data", asyncHandler(sensorController.getSensorData));
+router.get("/current", asyncHandler(sensorController.getCurrentSensorData));
 
 module.exports = router;

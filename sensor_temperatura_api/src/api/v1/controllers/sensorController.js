@@ -1,17 +1,30 @@
 const sensorService = require("../services/sensorService");
-const sensorData = require("../models/sensorData");
 
-async function getRealTimeData(req, res) {
-	const dados = await sensorService.readSensor();
-	res.json(dados);
+async function getSensorData(req, res) {
+	try {
+		const { startDate, endDate } = req.query;
+		const sensorData = await sensorService.getSensorData(
+			startDate,
+			endDate
+		);
+		res.json(sensorData);
+	} catch (error) {
+		console.error("Erro ao obter dados do sensor:", error);
+		res.status(500).json({ error: "Erro interno do servidor" });
+	}
 }
 
-async function getStoredData(req, res) {
-	const dados = await sensorData.getAll();
-	res.json(dados);
+async function getCurrentSensorData(req, res) {
+	try {
+		const currentData = await sensorService.getCurrentSensorData();
+		res.json(currentData);
+	} catch (error) {
+		console.error("Erro ao obter dados atuais do sensor:", error);
+		res.status(500).json({ error: "Erro interno do servidor" });
+	}
 }
 
 module.exports = {
-	getRealTimeData,
-	getStoredData,
+	getSensorData,
+	getCurrentSensorData,
 };
