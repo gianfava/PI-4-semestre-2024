@@ -32,7 +32,7 @@ jobs:
             - name: Construir e publicar imagem Docker
               uses: docker/build-push-action@v4
               with:
-                  context: ./web_front_react
+                  context: .web_front_react
                   push: true
                   tags: kevinmsbrandaofatec/web_front_react:latest
 
