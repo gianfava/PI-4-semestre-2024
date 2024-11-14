@@ -32,12 +32,12 @@ function runPythonScript(temperature, humidity) {
 // Função para atualizar a tela
 async function updateDisplay() {
 	try {
-		const { temperature, humidity } = await sensorService.readSensor();
-		await runPythonScript(temperature.toFixed(1), humidity.toFixed(1));
+		const { temperatura, umidade } = await sensorService.getCurrentSensorData();
+		await runPythonScript(temperatura.toFixed(1), umidade.toFixed(1));
 		console.log(
-			`Tela atualizada: Temperatura ${temperature.toFixed(
+			`Tela atualizada: Temperatura ${temperatura.toFixed(
 				1
-			)}°C, Umidade ${humidity.toFixed(1)}%`
+			)}°C, Umidade ${umidade.toFixed(1)}%`
 		);
 	} catch (error) {
 		console.error("Erro ao atualizar a tela:", error);
