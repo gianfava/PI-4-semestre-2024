@@ -1,4 +1,4 @@
-name: CI/CD temperatura
+name: CI/CD web_front_react
 
 on:
     push:
@@ -20,7 +20,7 @@ jobs:
             - name: Instalar dependências
               run: npm i
 
-            - name: Construir temperatura
+            - name: Construir web_front_react
               run: npm run build
 
             - name: Login no DockerHub
@@ -34,7 +34,7 @@ jobs:
               with:
                   context: ./web_front_react
                   push: true
-                  tags: kevinmsbrandaofatec/temperatura:latest
+                  tags: kevinmsbrandaofatec/web_front_react:latest
 
     implantar:
         needs: construir-e-publicar
@@ -47,7 +47,7 @@ jobs:
                   username: aluno
                   key: ${{ secrets.SERVER_SSH_KEY }}
                   script: |
-                      docker pull kevinmsbrandaofatec/temperatura:latest
-                      docker stop temperatura || true
-                      docker rm temperatura || true
-                      docker run -d --name temperatura -p 8095:80 kevinmsbrandaofatec/temperatura:latest
+                      docker pull kevinmsbrandaofatec/web_front_react:latest
+                      docker stop web_front_react || true
+                      docker rm web_front_react || true
+                      docker run -d --name web_front_react -p 8095:80 kevinmsbrandaofatec/web_front_react:latest
