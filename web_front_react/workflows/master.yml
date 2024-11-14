@@ -27,7 +27,7 @@ jobs:
               uses: docker/login-action@v2
               with:
                   username: kevinmsbrandaofatec
-                  password: ${{ secrets.DOCKERHUB_TOKEN_TRABALHO }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN_TRABALHO_PI }}
 
             - name: Construir e publicar imagem Docker
               uses: docker/build-push-action@v4
