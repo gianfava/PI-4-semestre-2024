@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Sensor DHT11 API
+  description: API para gerenciar e consultar dados do sensor DHT11
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Servidor de desenvolvimento
+
+tags:
+  - name: sensor
+    description: Operações relacionadas ao sensor DHT11
+
+paths:
+  /sensor/data:
+    get:
+      summary: Recupera dados históricos do sensor
+      tags:
+        - sensor
+      parameters:
+        - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date-time
+          description: Data de início para filtrar os dados (formato ISO8601)
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date-time
+          description: Data de fim para filtrar os dados (formato ISO8601)
+      responses:
+        '200':
+          description: Dados do sensor recuperados com sucesso
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SensorData'
+        '400':
+          description: Parâmetros de consulta inválidos
+        '500':
+          description: Erro interno do servidor
+  
+  /sensor/current:
+    get:
+      summary: Recupera dados atuais do sensor
+      tags:
+        - sensor
+      responses:
+        '200':
+          description: Dados atuais do sensor recuperados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentSensorData'
+        '500':
+          description: Erro interno do servidor
+
+components:
+  schemas:
+    SensorData:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único do registro
+        data_hora:
+          type: string
+          format: date-time
+          description: Data e hora da leitura
+        temperatura:
+          type: number
+          format: float
+          description: Temperatura em graus Celsius
+        umidade:
+          type: number
+          format: float
+          description: Umidade relativa do ar em porcentagem
+      required:
+        - id
+        - data_hora
+        - temperatura
+        - umidade
+    
+    CurrentSensorData:
+      type: object
+      properties:
+        temperatura:
+          type: number
+          format: float
+          description: Temperatura atual em graus Celsius
+        umidade:
+          type: number
+          format: float
+          description: Umidade relativa do ar atual em porcentagem
+      required:
+        - temperatura
+        - umidade
