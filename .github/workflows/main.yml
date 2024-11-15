@@ -52,4 +52,4 @@ jobs:
             docker pull kevinmsbrandaofatec/web_front_react:latest
             docker stop web_front_react || true
             docker rm web_front_react || true
-            docker run -d --name web_front_react -p 8095:80 kevinmsbrandaofatec/web_front_react:latest
+            docker run -d --name web_front_react -p 8096:80 kevinmsbrandaofatec/web_front_react:latest
