@@ -1,6 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 function Login({ onLogin }) {
@@ -9,17 +9,18 @@ function Login({ onLogin }) {
     const navigation = useNavigation();
 
     const handleSubmit = async () => {
-        // Simulando autenticação para exemplo
+        if (!email || !password) {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos!');
+            return;
+        }
+
         try {
-            // Simule o login aqui (você poderia fazer uma requisição à sua API, por exemplo)
-            // const response = await axios.post("http://localhost:3000/auth/login", { email, password });
-            // const { token } = response.data;
-            // AsyncStorage.setItem("token", token);
-            onLogin();
-            navigation.navigate('Dashboard');
+            // Simule um login (ou substitua por lógica de autenticação)
+            onLogin(); // Chamando a função passada como prop
+            navigation.navigate('Dashboard'); // Redireciona para a Dashboard
         } catch (error) {
             Alert.alert('Erro', 'Erro ao fazer login');
-            console.error("Erro ao fazer login", error);
+            console.error('Erro ao fazer login', error);
         }
     };
 
@@ -27,7 +28,7 @@ function Login({ onLogin }) {
         <View style={styles.container}>
             <Image source={require('../assets/img/login-sf.png')} style={styles.loginImage} />
             <Text style={styles.title}>Login</Text>
-            
+
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Email"
@@ -38,7 +39,7 @@ function Login({ onLogin }) {
                     autoCapitalize="none"
                 />
             </View>
-            
+
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Senha"
@@ -48,11 +49,11 @@ function Login({ onLogin }) {
                     secureTextEntry
                 />
             </View>
-            
+
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity
                 style={styles.secondaryButton}
                 onPress={() => navigation.navigate('SignUp')}
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     loginImage: {
         width: 150,
