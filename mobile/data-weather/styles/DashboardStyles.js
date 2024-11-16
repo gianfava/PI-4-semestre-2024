@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     statsContainer: {
-        marginBottom: 30,
+        marginBottom: 20,
         padding: 20,
         borderRadius: 10,
         backgroundColor: '#fff',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     loadingContainer: {
@@ -57,6 +57,43 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+
+    recommendationContainer: {
+        marginTop: 5,
+        marginBottom: 20,
+        padding: 20,
+        borderRadius: 10,
+        backgroundColor: '#154c79',
+        width: '100%',
+        elevation: 3, // Sombra no Android
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4, // Sombra no iOS
+    },
+    recommendationTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginBottom: 10,
+    },
+    recommendationText: {
+        fontSize: 18,
+        color: '#fff',
+    },
+    loginImage: {
+        width: 200,
+        height: 200,
+        marginBottom: 10,
+    },
+    logoImage: {
+        width: 150,   // Defina a largura da imagem
+        height: 150,  // Defina a altura da imagem
+    },
+    containerLogo: {
+        alignItems: 'center',
+    },
+    
 });
 
 export default styles;
