@@ -145,4 +145,3 @@ Tela Umidade-  Exibe dados e gráficos detalhados da umidade a partir das rotas
 
 Tela Projeção-  Oferece uma análise estatística dos dados coletados pelos sensores, permitindo uma visão preditiva e resumida dos padrões de temperatura e umidade ao longo de um período. Essa funcionalidade foi projetada para atender à necessidade de interpretar tendências com base nos dados históricos fornecidos pela API.
 
----
