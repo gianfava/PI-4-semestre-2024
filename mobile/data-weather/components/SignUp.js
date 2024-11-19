@@ -11,17 +11,16 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
+
     const handleSubmit = async () => {
-        // Validação simples
         if (!cpf || !name || !email || !password) {
             Alert.alert('Erro', 'Por favor, preencha todos os campos!');
             return;
         }
-
+    
         try {
-            // Salvar os dados no AsyncStorage
             const userData = { cpf, name, email, password };
-            await AsyncStorage.setItem('user', JSON.stringify(userData));
+            await AsyncStorage.setItem(email, JSON.stringify(userData)); // Salvar usando o e-mail como chave
             Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
             navigation.navigate('Login');
         } catch (error) {
@@ -29,6 +28,7 @@ export default function SignUp() {
             Alert.alert('Erro', 'Não foi possível realizar o cadastro.');
         }
     };
+    
 
     return (
         <View style={styles.container}>

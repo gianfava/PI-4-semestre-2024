@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, ActivityIndicator, Image } from 'react-native';
-import styles from '../styles/DashboardStyles'; // Importando os estilos organizados em um arquivo separado
-import { fetchStats } from '../services/api'; // Importando a função para buscar dados da API
+import styles from '../styles/DashboardStyles';
+import { fetchStats } from '../services/api';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Dashboard() {
@@ -9,15 +9,15 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
 
-    // Buscar dados da API
     useEffect(() => {
         const loadData = async () => {
             try {
-                const stats = await fetchStats(); // Chamando a função de API
+                const stats = await fetchStats();
                 setData(stats);
                 setLoading(false);
             } catch (error) {
-                Alert.alert('Erro', 'Não foi possível buscar os dados da API');
+                Alert.alert('Erro', 'Não foi possível carregar os dados.');
+                console.error('Erro ao carregar dados:', error);
                 setLoading(false);
             }
         };
@@ -25,15 +25,13 @@ export default function Dashboard() {
         loadData();
     }, []);
 
-    // Função para determinar a recomendação com base na temperatura e umidade
     const getRecommendation = () => {
         if (!data) return '';
 
         const { temperatura, umidade } = data;
 
-        // Condições baseadas na temperatura e umidade
         if (temperatura > 30 && umidade < 40) {
-            return 'Está fazendo calor e tempo seco. Favor beba água!';
+            return 'Está fazendo calor e iniciando tempo seco. Favor beba água!';
         } else if (temperatura > 30 && umidade >= 40) {
             return 'Está bem quente, mas a umidade está boa. Mantenha-se hidratado!';
         } else if (temperatura >= 20 && temperatura <= 30 && umidade >= 50) {
@@ -43,7 +41,7 @@ export default function Dashboard() {
         } else if (temperatura < 20 && umidade >= 50) {
             return 'Está frio com boa umidade. Vista-se bem!';
         } else if (temperatura < 20 && umidade < 50) {
-            return 'Está frio e seco. Beba água e agasalhe-se!';
+            return 'Está frio e começando a ficar seco. Beba água e agasalhe-se!';
         } else {
             return 'As condições estão neutras. Tenha um bom dia!';
         }
@@ -60,9 +58,6 @@ export default function Dashboard() {
 
     return (
         <View style={styles.container}>
-           
-            <Text style={styles.title}>Dashboard</Text>
-
             {data ? (
                 <View>
                     <View style={styles.containerLogo}>
@@ -107,7 +102,7 @@ export default function Dashboard() {
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => Alert.alert('Projeções', 'Funcionalidade ainda não implementada.')}
+                    onPress={() => navigation.navigate('Projections')}
                 >
                     <Text style={styles.buttonText}>📈 Projeções</Text>
                 </TouchableOpacity>

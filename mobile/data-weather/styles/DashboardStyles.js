@@ -4,13 +4,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f4f4f4',
-        alignItems: 'center',
-        justifyContent: 'center',
         padding: 20,
+    },
+    scrollContainer: {
+        alignItems: 'center',
+        paddingBottom: 20, // Espaço extra no final da rolagem
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        padding: 20,
+        marginTop: 20,
         marginBottom: 20,
         color: '#333',
     },

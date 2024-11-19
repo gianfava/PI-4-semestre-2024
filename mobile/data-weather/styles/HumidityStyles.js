@@ -3,19 +3,19 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#eef6fc', // Fundo mais claro para indicar umidade
         padding: 20,
     },
     scrollContainer: {
         alignItems: 'center',
-        paddingTop: 30, // Espaço extra no final da rolagem
+        paddingTop: 30, // Espaço extra no topo para melhor alinhamento
         paddingBottom: 20, // Espaço extra no final da rolagem
     },
     title: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
-        color: '#5c5c5c',
+        color: '#2d5f7c', // Azul escuro para umidade
     },
     statsContainer: {
         marginBottom: 20,
@@ -23,12 +23,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#fff',
         width: '90%',
-        elevation: 3,
+        elevation: 3, // Sombra no Android
+        shadowColor: '#000', // Sombra no iOS
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
     },
     statText: {
         fontSize: 16,
         marginBottom: 5,
-        color: '#333',
+        color: '#2d5f7c', // Azul escuro para consistência
     },
     loadingContainer: {
         flex: 1,
@@ -42,6 +46,10 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         elevation: 3,
+        shadowColor: '#000', // Sombra no iOS
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         marginBottom: 20,
     },
     graphTitle: {
@@ -49,14 +57,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         textAlign: 'center',
-        color: '#007AFF',
+        color: '#1E90FF', // Azul claro para o gráfico
     },
-    graphTitleRed: {
+    graphTitleBlue: {
         fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 10,
         textAlign: 'center',
-        color: '#333',
+        color: '#2d5f7c', // Azul escuro para o título
     },
 
     backButton: {
@@ -73,8 +81,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    
-
 
 });
 
