@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Configuração base da API
 const api = axios.create({
-    baseURL: 'http://localhost:3001/api/v1', // apenas alterar para IP da sua máquina, a porta continuará 3001
+    baseURL: 'http://192.168.210.52:3001/api/v1', // apenas alterar para IP da sua máquina, a porta continuará 3001
     timeout: 10000, // Timeout opcional
 });
 
