@@ -1,7 +1,7 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login({ onLogin }) {
     const [email, setEmail] = useState('');
@@ -15,12 +15,26 @@ function Login({ onLogin }) {
         }
 
         try {
-            // Simule um login (ou substitua por lógica de autenticação)
-            onLogin(); // Chamando a função passada como prop
-            navigation.navigate('Dashboard'); // Redireciona para a Dashboard
+            // Busca os dados do usuário no AsyncStorage
+            const storedUser = await AsyncStorage.getItem(email); // A chave é o e-mail do usuário
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                if (parsedUser.password === password) {
+                    // Login bem-sucedido
+                    onLogin(); // Notifica o estado do App.js
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Dashboard' }], // Navega para Dash limpando o histórico de navegação
+                    });
+                } else {
+                    Alert.alert('Erro', 'Senha incorreta.');
+                }
+            } else {
+                Alert.alert('Erro', 'Usuário não encontrado.');
+            }
         } catch (error) {
-            Alert.alert('Erro', 'Erro ao fazer login');
-            console.error('Erro ao fazer login', error);
+            Alert.alert('Erro', 'Erro ao fazer login.');
+            console.error('Erro ao buscar usuário:', error);
         }
     };
 
