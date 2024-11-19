@@ -6,6 +6,7 @@ import SignUp from './components/SignUp';
 import Dash from './components/Dash';
 import Temperature from './components/Temperature';
 import Humidity from './components/Humidity';
+import Projections from './components/Projections';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="Dashboard" component={Dash} />
         <Stack.Screen name="Temperature" component={Temperature} />
         <Stack.Screen name="Humidity" component={Humidity} />
+        <Stack.Screen name="Projections" component={Projections} />
       </Stack.Navigator>
     </NavigationContainer>
   );

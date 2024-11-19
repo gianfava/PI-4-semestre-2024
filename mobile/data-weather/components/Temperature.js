@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native';
-import { fetchStats } from '../services/api'; // Reaproveitando a função da API
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, Alert, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
+import { BarChart, LineChart, Grid } from 'react-native-svg-charts';
+import { Text as SVGText } from 'react-native-svg';
+import { fetchStats, fetchTemperatureStats, fetchRawData } from '../services/api'; // Importação centralizada
 import styles from '../styles/TemperatureStyles';
 
 export default function Temperature() {
     const [currentTemp, setCurrentTemp] = useState(null);
     const [stats, setStats] = useState(null);
+    const [graphData, setGraphData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigation = useNavigation();
 
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Buscar temperatura atual
-                const currentStats = await fetchStats(); // Função que já busca `http://192.168.56.1:3001/api/v1/stats/atual`
-                setCurrentTemp(currentStats.temperatura);
+                const currentData = await fetchStats();
+                setCurrentTemp(currentData.temperatura);
 
-                // Buscar estatísticas de temperatura
-                const response = await fetch('http://192.168.56.1:3001/api/v1/stats/temperatura');
-                const temperatureStats = await response.json();
+                const temperatureStats = await fetchTemperatureStats();
                 setStats(temperatureStats);
+
+                const rawGraphData = await fetchRawData('2024-11-15'); // Data inicial arbitrária
+                setGraphData(rawGraphData.slice(0, 5)); // Usar apenas os 5 primeiros registros
 
                 setLoading(false);
             } catch (error) {
-                Alert.alert('Erro', 'Não foi possível carregar os dados de temperatura.');
+                Alert.alert('Erro', 'Não foi possível carregar os dados.');
                 console.error('Erro ao carregar dados:', error);
                 setLoading(false);
             }
@@ -40,28 +45,87 @@ export default function Temperature() {
         );
     }
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Temperatura</Text>
 
-            {/* Contêiner da temperatura atual */}
-            {currentTemp && (
-                <View style={styles.statsContainer}>
-                    <Text style={styles.statText}>🌡️ Temperatura Atual: {currentTemp.toFixed(1)}°C</Text>
+
+    // Prepara os dados para os gráficos
+    const barData = graphData.map((item) => item.temperatura); // Valores das barras
+    const lineData = graphData.map((item) => item.temperatura); // Valores do gráfico de linha
+
+    // Componente para exibir valores sobre as barras
+    const Labels = ({ x, y, bandwidth, data }) => (
+        data.map((value, index) => (
+            <SVGText
+                key={index}
+                x={x(index) + bandwidth / 2} // Centraliza o texto na barra
+                y={y(value) - 10} // Posiciona o texto acima da barra
+                fontSize={12}
+                fill="#ff4940"
+                alignmentBaseline="middle"
+                textAnchor="middle"
+            >
+                {value.toFixed(1)}°C
+            </SVGText>
+        ))
+    );
+
+    return (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <Text style={styles.title}> 📃 Dados de Temperatura </Text>
+
+            {/* Gráfico de Barras */}
+            {graphData.length > 0 && (
+                <View style={styles.graphContainer}>
+                    <Text style={styles.graphTitleRed}>📊 Gráfico Tipo Barra (5 dias)</Text>
+                    <BarChart
+                        style={{ flex: 1 }}
+                        data={barData}
+                        svg={{ fill: '#ff4940' }}
+                        contentInset={{ top: 20, bottom: 20 }}
+                        spacingInner={0.4} // Espaçamento entre as barras
+                    >
+                        <Grid />
+                        {/* Adiciona os rótulos sobre as barras */}
+                        <Labels />
+                    </BarChart>
                 </View>
             )}
+
+            {/* Gráfico de Linhas */}
+            {graphData.length > 0 && (
+                <View style={styles.graphContainer}>
+                    <Text style={styles.graphTitleRed}>📈 Gráfico Tipo Linha (5 dias)</Text>
+                    <LineChart
+                        style={{ flex: 1 }}
+                        data={lineData}
+                        svg={{ stroke: '#FF4500', strokeWidth: 2 }}
+                        contentInset={{ top: 20, bottom: 20 }}
+                    >
+                        <Grid />
+                    </LineChart>
+                </View>
+            )}
+
+          <Text style={styles.title}>📊 Estatísticas (Geral)  </Text>
 
             {/* Contêiner dos dados de estatísticas */}
             {stats && (
+              
                 <View style={styles.statsContainer}>
-                    <Text style={styles.statText}>📊 Estatísticas de Temperatura</Text>
-                    <Text style={styles.statText}>Média: {stats.media.toFixed(1)}°C</Text>
-                    <Text style={styles.statText}>Mediana: {stats.mediana.toFixed(1)}°C</Text>
-                    <Text style={styles.statText}>Desvio Padrão: {stats.desvioPadrao.toFixed(1)}°C</Text>
-                    <Text style={styles.statText}>Mínimo: {stats.minimo.toFixed(1)}°C</Text>
-                    <Text style={styles.statText}>Máximo: {stats.maximo.toFixed(1)}°C</Text>
+                    <Text style={styles.statText}> 🟥 Média: {stats.media.toFixed(1)}°C</Text>
+                    <Text style={styles.statText}> 🟧 Mediana: {stats.mediana.toFixed(1)}°C</Text>
+                    <Text style={styles.statText}> 🟨 Desvio Padrão: {stats.desvioPadrao.toFixed(1)}°C</Text>
+                    <Text style={styles.statText}> 🔽 Mínimo: {stats.minimo.toFixed(1)}°C</Text>
+                    <Text style={styles.statText}> 🔼 Máximo: {stats.maximo.toFixed(1)}°C</Text>
                 </View>
             )}
-        </View>
+
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <Text style={styles.backButtonText}> Voltar</Text>
+            </TouchableOpacity>
+
+
+        </ScrollView>
     );
 }
+
+
