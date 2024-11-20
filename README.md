@@ -2,13 +2,13 @@
 ##  **Aplicação Mobile com React Native**
 
 ### Alunos
-Felipe Ferreira Rezende
+➡️Felipe Ferreira Rezende
 
-Gian Carlo Fava
+➡️Gian Carlo Fava
 
-Silvio Alves da Silva Junior
+➡️Silvio Alves da Silva Junior
 
-Kevin de Almeida Brandão
+➡️Kevin de Almeida Brandão
 
 ## 📖 Descrição do Projeto : Data Weather
 
