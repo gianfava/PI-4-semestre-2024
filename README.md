@@ -3,8 +3,11 @@
 
 ### Alunos
 Felipe Ferreira Rezende
+
 Gian Carlo Fava
+
 Silvio Alves da Silva Junior
+
 Kevin de Almeida Brandão
 
 ## 📖 Descrição do Projeto : Data Weather
